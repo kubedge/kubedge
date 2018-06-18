@@ -6,9 +6,8 @@ jobs:
     - stage: build docker image
       script:
       - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DOCKER_USERNAME/kubeplay:arm32v7 images/kubeplay
-      - docker images
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker push $DOCKER_USERNAME/kubeplay:arm32v7
     - stage: test
       script:
