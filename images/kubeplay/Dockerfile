@@ -1,4 +1,6 @@
-FROM arm32v7/ubuntu:16.04
+# FROM arm32v7/ubuntu:16.04
+ARG distro=stretch
+FROM resin/rpi-raspbian:$distro
 
 MAINTAINER admin@jbrette.cloud
 
