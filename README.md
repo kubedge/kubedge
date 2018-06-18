@@ -1,6 +1,12 @@
-# jbrette
+# kubeplay
 
-## Docker 
+Kubernetes Playground
 
-Initial Docker file
+## arm32v7
+
+Deployment on Kubernets Raspberry PI 
+
+## amd64
+
+Deployment on Kurbernetes CoreOS cluster
 
