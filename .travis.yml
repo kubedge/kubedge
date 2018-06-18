@@ -1,14 +1,16 @@
 sudo: required
 
-language: ruby
+language: bash
 
 services:
-  - docker
-
-before_install:
-  - docker build -t jbrette/kubeplay:latest images/kubeplay
-  - docker run -d -p 127.0.0.1:80:4567 jbrette/kubeplay:latest
-  - docker ps -a
+- docker
 
 script:
-  - bundle exec rake test
+- docker build -t jbrette/kubeplay:latest images/kubeplay
+- docker run -d -p 127.0.0.1:80:4567 jbrette/kubeplay:latest
+- docker ps -a
+- >
+  if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+    docker push jbrette/kubeplay:latest
+  fi
