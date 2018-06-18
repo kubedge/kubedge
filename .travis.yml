@@ -1,16 +1,13 @@
-sudo: required
+sudo: true
+dist: xenial
 
-language: bash
-
-services:
-- docker
-
-script:
-- docker build -t jbrette/kubeplay:latest images/kubeplay
-- docker run -d -p 127.0.0.1:80:4567 jbrette/kubeplay:latest
-- docker ps -a
-- >
-  if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-    docker push jbrette/kubeplay:latest
-  fi
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $DOCKER_USERNAME/kubeplay:latest images/kubeplay
+      - docker images
+      - docker push $DOCKER_USERNAME/kubeplay:latest
+    - stage: test
+      script: docker run --rm $DOCKER_USERNAME/kubeplay:latest
