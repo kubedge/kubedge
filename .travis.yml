@@ -1,14 +1,14 @@
-sudo: required
-services:
-- docker
-language: bash
-script:
-- docker run --rm --privileged multiarch/qemu-user-static:register --reset
-- docker build -t $DOCKER_USERNAME/kubeplay:arm32v7 images/kubeplay
-- docker run --rm $DOCKER_USERNAME/kubeplay:arm32v7
-- >
-- >
-  if [ "$TRAVIS_BRANCH" == "arm32v7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    docker push $DOCKER_USERNAME/kubeplay:arm32v7
-  fi
+sudo: true
+dist: xenial
+
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $DOCKER_USERNAME/kubeplay:arm32v7 images/kubeplay
+      - docker images
+      - docker push $DOCKER_USERNAME/kubeplay:arm32v7
+    - stage: test
+      script: docker run --rm $DOCKER_USERNAME/kubeplay:arm32v7
