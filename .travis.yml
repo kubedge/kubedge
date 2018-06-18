@@ -11,4 +11,6 @@ jobs:
       - docker images
       - docker push $DOCKER_USERNAME/kubeplay:arm32v7
     - stage: test
-      script: docker run --rm $DOCKER_USERNAME/kubeplay:arm32v7
+      script:
+      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - docker run --rm $DOCKER_USERNAME/kubeplay:arm32v7
