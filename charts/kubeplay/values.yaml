@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: jbrette/kubeplay
-  tag: latest
+  tag: 1.0.1
   pullPolicy: IfNotPresent
 service:
   name: kubeplay
