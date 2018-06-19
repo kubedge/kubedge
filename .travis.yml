@@ -13,6 +13,6 @@ jobs:
     - stage: test
       script:
       - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - docker run -d -p 127.0.0.1:80:80 --name hello $DOCKER_USERNAME/kubeplay-arm32v7:0.1.0
+      - docker run -d -p 8080:80 --name hello $DOCKER_USERNAME/kubeplay-arm32v7:0.1.0
       - docker ps | grep -q hello
-      - curl -vsf 'http://127.0.0.1:80/index.html' &> /dev/stdout
+      - curl -vsf 'http://127.0.0.1:8080/index.html' &> /dev/stdout
