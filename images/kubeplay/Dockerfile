@@ -1,7 +1,4 @@
-FROM ubuntu:16.04
-
-MAINTAINER admin@jbrette.cloud
-
-RUN echo "Hello world latest" > /root/hello_world.txt
-
-CMD ["cat", "/root/hello_world.txt"]
+FROM busybox
+ADD kubeplay/index.html /www/index.html
+EXPOSE 80
+CMD httpd -p 80 -h /www; tail -f /dev/null
