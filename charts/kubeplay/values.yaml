@@ -3,13 +3,13 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: nginx
-  tag: stable
+  repository: jbrette/kubeplay
+  tag: latest
   pullPolicy: IfNotPresent
 service:
-  name: nginx
-  type: ClusterIP
-  externalPort: 80
+  name: kubeplay
+  type: NodePort
+  externalPort: 8005
   internalPort: 80
 ingress:
   enabled: false

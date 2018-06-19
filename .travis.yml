@@ -10,4 +10,6 @@ jobs:
       - docker images
       - docker push $DOCKER_USERNAME/kubeplay:latest
     - stage: test
-      script: docker run --rm $DOCKER_USERNAME/kubeplay:latest
+      script:
+      - docker run --rm $DOCKER_USERNAME/kubeplay:latest
+      - curl -vsf 'http://localhost:80/index.html' &> /dev/stdout
