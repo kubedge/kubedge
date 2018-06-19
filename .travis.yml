@@ -7,10 +7,12 @@ jobs:
       script:
       - docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_USERNAME/kubeplay:arm32v7 images/kubeplay
+      - docker build -t $DOCKER_USERNAME/kubeplay-arm32v7:0.1.0 -f images/kubeplay/Dockerfile .
       - docker images
-      - docker push $DOCKER_USERNAME/kubeplay:arm32v7
+      - docker push $DOCKER_USERNAME/kubeplay-arm32v7
     - stage: test
       script:
       - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - docker run --rm $DOCKER_USERNAME/kubeplay:arm32v7
+      - docker run -d -p 127.0.0.1:80:80 --name hello $DOCKER_USERNAME/kubeplay-arm32v7:0.1.0
+      - docker ps | grep -q hello
+      - curl -vsf 'http://127.0.0.1:80/index.html' &> /dev/stdout
