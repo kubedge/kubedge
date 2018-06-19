@@ -1,7 +1,6 @@
-ARG distro=stretch
-FROM resin/rpi-raspbian:$distro
-# FROM arm32v7/ubuntu:16.04
-# FROM busybox
+# ARG distro=stretch
+# FROM resin/rpi-raspbian:$distro
+FROM arm32v7/busybox
 
 MAINTAINER admin@jbrette.cloud
 
