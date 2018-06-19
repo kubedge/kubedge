@@ -6,11 +6,11 @@ jobs:
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_USERNAME/kubeplay:1.0.1 -f images/kubeplay/Dockerfile .
+      - docker build -t $DOCKER_USERNAME/kubeplay:0.1.0 -f images/kubeplay/Dockerfile .
       - docker images
-      - docker push $DOCKER_USERNAME/kubeplay:1.0.1
+      - docker push $DOCKER_USERNAME/kubeplay:0.1.0
     - stage: test
       script:
-      - docker run -d -p 127.0.0.1:80:80 --name hello $DOCKER_USERNAME/kubeplay:1.0.1
+      - docker run -d -p 127.0.0.1:80:80 --name hello $DOCKER_USERNAME/kubeplay:0.1.0
       - docker ps | grep -q hello
       - curl -vsf 'http://127.0.0.1:80/index.html' &> /dev/stdout
