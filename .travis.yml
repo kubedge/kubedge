@@ -11,6 +11,6 @@ jobs:
       - docker push $DOCKER_USERNAME/kubeplay:latest
     - stage: test
       script:
-      - docker run -d -p 127.0.0.1:80:80 $DOCKER_USERNAME/kubeplay:latest --name hello hello
+      - docker run -d -p 127.0.0.1:80:80 --name hello $DOCKER_USERNAME/kubeplay:latest
       - docker ps | grep -q hello
       - curl -vsf 'http://127.0.0.1:80/index.html' &> /dev/stdout
