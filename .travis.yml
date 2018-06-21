@@ -12,15 +12,21 @@ jobs:
   include:
     - stage: build docker image
       script:
+      - export DHUBREPO=$DOCKER_USERNAME/kubeplay
+      - export VERSION=0.1.0
       - cd kubeplay
       - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o goserv .
       - cd ..
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_USERNAME/kubeplay:0.1.0 -f images/kubeplay/Dockerfile .
+      - docker build -t $DHUBREPO:$VERSION -f images/kubeplay/Dockerfile .
       - docker images
-      - docker push $DOCKER_USERNAME/kubeplay:0.1.0
+      - docker tag $DHUBREPO:$VERSION $DHUBREPO:latest
+      - docker tag $DHUBREPO:$VERSION $DHUBREPO:travis-$TRAVIS_BUILD_NUMBER
+      - docker push $DHUBREPO:$VERSION
     - stage: test
       script:
-      - docker run -d -p 127.0.0.1:8080:8080 --name hello $DOCKER_USERNAME/kubeplay:0.1.0
+      - export DHUBREPO=$DOCKER_USERNAME/kubeplay
+      - export VERSION=0.1.0
+      - docker run -d -p 127.0.0.1:8080:8080 --name hello $DHUBREPO:$VERSION
       - docker ps | grep -q hello
       - curl -vsf 'http://127.0.0.1:8080/index.html' &> /dev/stdout
