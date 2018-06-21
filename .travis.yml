@@ -13,7 +13,7 @@ jobs:
     - stage: build docker image
       script:
       - cd kubeplay
-      - go build -o goserv . 
+      - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o goserv .
       - cd ..
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DOCKER_USERNAME/kubeplay:0.1.0 -f images/kubeplay/Dockerfile .
