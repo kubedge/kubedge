@@ -12,7 +12,9 @@ jobs:
   include:
     - stage: build docker image
       script:
-      - go build -o kubeplay/goserv kubeplay 
+      - cd kubeplay
+      - go build -o goserv . 
+      - cd ..
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DOCKER_USERNAME/kubeplay:0.1.0 -f images/kubeplay/Dockerfile .
       - docker images
