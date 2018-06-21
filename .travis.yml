@@ -3,16 +3,16 @@ sudo: true
 language: go
 
 go:
-- "1.10.x"
+  - "1.10.x"
+
+before_install:
+  - go get github.com/jbrette/gohttpserv
 
 service:
-- docker
+  - docker
 
 jobs:
   include:
-    - stage: build go process
-      script:
-      - go get github.com/jbrette/gohttpserv
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
