@@ -1,16 +1,20 @@
 sudo: true
-dist: xenial
 
 language: go
 
 go:
-  - "1.10.x"
+- "1.10.x"
+
+service:
+- docker
 
 jobs:
   include:
-    - stage: build docker image
+    - stage: build go process
       script:
       - go get github.com/jbrette/gohttpserv
+    - stage: build docker image
+      script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DOCKER_USERNAME/kubeplay:0.1.0 -f images/kubeplay/Dockerfile .
       - docker images
