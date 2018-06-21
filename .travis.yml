@@ -22,7 +22,7 @@ jobs:
       - docker images
       - docker tag $DHUBREPO:$VERSION $DHUBREPO:latest
       - docker tag $DHUBREPO:$VERSION $DHUBREPO:travis-$TRAVIS_BUILD_NUMBER
-      - docker push $DHUBREPO:$VERSION
+      - docker push $DHUBREPO
     - stage: test
       script:
       - export DHUBREPO=$DOCKER_USERNAME/kubeplay
