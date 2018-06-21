@@ -1,8 +1,15 @@
 sudo: true
 dist: xenial
+language: go
+
+go:
+  - "1.10.x"
 
 jobs:
   include:
+    - stage: build the application
+      script:
+      - go get github.com/jbrette/gohttpserv
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
