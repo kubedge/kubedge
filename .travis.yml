@@ -3,7 +3,7 @@ sudo: true
 language: go
 
 go:
-  - "1.10.x"
+  - "1.11.x"
 
 service:
   - docker
@@ -12,7 +12,7 @@ jobs:
   include:
     - stage: build docker image
       script:
-      - export DHUBREPO=$DOCKER_USERNAME/kubeplay
+      - export DHUBREPO=$DOCKER_NAMESPACE/kubeplay
       - export VERSION=0.1.0
       - cd kubeplay
       - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o goserv .
@@ -25,7 +25,7 @@ jobs:
       - docker push $DHUBREPO
     - stage: test
       script:
-      - export DHUBREPO=$DOCKER_USERNAME/kubeplay
+      - export DHUBREPO=$DOCKER_NAMESPACE/kubeplay
       - export VERSION=0.1.0
       - docker run -d -p 127.0.0.1:8080:8080 --name hello $DHUBREPO:$VERSION
       - docker ps | grep -q hello

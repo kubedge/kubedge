@@ -1,9 +1,9 @@
-# Default values for helloworld-chart.
+# Default values for kubeplay chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: jbrette/kubeplay
+  repository: kubedge1/kubeplay
   tag: 0.1.0
   pullPolicy: IfNotPresent
 service:
