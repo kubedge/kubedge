@@ -1,6 +1,6 @@
 # kubeplay
 
-Kubernetes Playground. This repo is also used to check gerrithub.io configuration
+Kubernetes Playground
 
 ## Main tutorials
 
