@@ -21,12 +21,14 @@ Kubernetes Playground
 
 ### latest
 
-Deployment on kubedge SDK 
+Deployment on kubedge SDK
 
 ### arm32v7
 
-Deployment on Kubernets Raspberry PI 
+Deployment on Kubernets Raspberry PI
 
 ### amd64
 
 Deployment on Kurbernetes CoreOS cluster
+
+
