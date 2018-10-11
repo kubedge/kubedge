@@ -17,16 +17,16 @@ Kubernetes Playground
 - TRAVIS as CI.
 - DOCKERHUB  for image repository.
 
-### Branch descrption
+## Branch descrption
 
-## latest
+### latest
 
 Deployment on kubedge SDK 
 
-## arm32v7
+### arm32v7
 
 Deployment on Kubernets Raspberry PI 
 
-## amd64
+### amd64
 
 Deployment on Kurbernetes CoreOS cluster
