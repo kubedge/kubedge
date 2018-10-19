@@ -1,34 +1,35 @@
 # kubeplay
 
-Kubernetes Playground
+KUDEDGE Platform Play Server. Simple example of a project deployable on KUBEDGE.
+
+## KUBEDGE Platform
+
+Documentation is available [Here](http://kubedge.cloud) or [Here](https://kubedge.github.io)
 
 ## Main tutorials
 
-- Simple GO program for servers.
 - Docker image creation.
 - Helm chart for Kubernetes deployment.
 - Minimal size container build around GO binary.
-- Multi architecture handling (AMD64 and ARM32V7)
+- Multi architecture handling (AMD64 and ARM32V7).
 
 ## Related tutorials
 
-- GITHUB as code reop
-- GERRITUB for code review
+- GITHUB as code.
+- GERRITUB for code review.
 - TRAVIS as CI.
-- DOCKERHUB  for image repository.
+- DOCKERHUB for image repository.
 
 ## Branch descrption
 
-### latest
+### master
 
-Deployment on kubedge SDK
+Development and Deployment on KUBEDGE SDK. No Helm chart.
 
 ### arm32v7
 
-Deployment on Kubernets Raspberry PI
+Deployment on KUBEDGE Raspberry PI Cluster. Helm chart provided.
 
 ### amd64
 
-Deployment on Kurbernetes CoreOS cluster
-
-
+Deployment on KUBEDGE CoreOS Cluster. Helm chart provided.
