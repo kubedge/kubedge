@@ -1,4 +1,0 @@
-apiVersion: v1
-description: Kubedge simple GO microservice
-name: kubeplay
-version: 0.1.0
