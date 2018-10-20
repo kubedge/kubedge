@@ -27,5 +27,5 @@ all: simulator
 simulator: kubedge/main.go
 	cd kubedge && CGO_ENABLED=0 GOOS=linux GOARM=7 GOARCH=arm go build -a -installsuffix cgo -o goclient-${CURRENT_BRANCH} .
 
-clean: kubedge/goclient-${CURRENT_BRANCH}
-	cd kubedge && rm -f goclient-${CURRENT_BRANCH}
+clean: kubedge/goserv-${CURRENT_BRANCH}
+	cd kubedge && rm -f goserv-${CURRENT_BRANCH}
