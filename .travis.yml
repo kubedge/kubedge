@@ -12,11 +12,12 @@ jobs:
   include:
     - stage: build docker image
       script:
-      - export DHUBREPO=$DOCKER_NAMESPACE/kubedge-dev
+      - export DHUBREPO=$DOCKER_NAMESPACE/kubedge-arm32v7
       - export VERSION=0.1.0
       - cd kubedge
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goserv .
+      - CGO_ENABLED=0 GOOS=linux GOARM=7 GOARCH=arm go build -a -installsuffix cgo -o goserv .
       - cd ..
+      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DHUBREPO:$VERSION -f images/kubedge/Dockerfile .
       - docker images
@@ -25,8 +26,9 @@ jobs:
       - docker push $DHUBREPO
     - stage: test
       script:
-      - export DHUBREPO=$DOCKER_NAMESPACE/kubedge-dev
+      - export DHUBREPO=$DOCKER_NAMESPACE/kubedge-arm32v7
       - export VERSION=0.1.0
+      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - docker run -d -p 127.0.0.1:8080:80 --name hello $DHUBREPO:$VERSION
       - docker ps | grep -q hello
       # - curl -vsf 'http://127.0.0.1:8080/index.html' &> /dev/stdout
