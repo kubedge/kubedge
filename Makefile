@@ -25,7 +25,7 @@ DHUBREPO         = ${DOCKER_NAMESPACE}/${IMAGE_NAME}
 all: simulator
 
 simulator: kubedge/main.go
-	cd kubedge && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goclient-${CURRENT_BRANCH} .
+	cd kubedge && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goserv-${CURRENT_BRANCH} .
 
-clean: kubedge/goclient-${CURRENT_BRANCH}
-	cd kubedge && rm -f goclient-${CURRENT_BRANCH}
+clean: kubedge/goserv-${CURRENT_BRANCH}
+	cd kubedge && rm -f goserv-${CURRENT_BRANCH}
