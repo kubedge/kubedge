@@ -1,4 +1,4 @@
-# kubeplay
+# kubedge
 
 KUDEDGE Platform Play Server. Simple example of a project deployable on KUBEDGE.
 

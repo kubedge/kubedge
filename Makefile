@@ -15,7 +15,7 @@
 
 DOCKER_NAMESPACE ?= kubedge
 VERION           ?= 0.1.0
-SIMU_NAME        = kubeplay
+SIMU_NAME        = kubedge
 CURRENT_BRANCH   = ${shell git rev-parse --abbrev-ref HEAD}
 IMAGE_NAME       = ${SIMU_NAME}-${CURRENT_BRANCH}
 DHUBREPO         = ${DOCKER_NAMESPACE}/${IMAGE_NAME}
@@ -24,8 +24,8 @@ DHUBREPO         = ${DOCKER_NAMESPACE}/${IMAGE_NAME}
 
 all: simulator
 
-simulator: kubeplay/main.go
-	cd kubeplay && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goclient-${CURRENT_BRANCH} .
+simulator: kubedge/main.go
+	cd kubedge && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goclient-${CURRENT_BRANCH} .
 
-clean: kubeplay/goclient-${CURRENT_BRANCH}
-	cd kubeplay && rm -f goclient-${CURRENT_BRANCH}
+clean: kubedge/goclient-${CURRENT_BRANCH}
+	cd kubedge && rm -f goclient-${CURRENT_BRANCH}
