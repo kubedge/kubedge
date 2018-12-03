@@ -17,8 +17,17 @@ limitations under the License.
 package main
 
 import (
+	"flag"
+	"log"
 	"net/http"
+	"path/filepath"
 	"strings"
+)
+
+var (
+	listen = flag.String("listen", ":8080", "listen address")
+	dir    = flag.String("dir", "webapp2", "directory to serve")
+	prefix = flag.String("p", "/", "prefix path under")
 )
 
 func sayHello(w http.ResponseWriter, r *http.Request) {
@@ -27,9 +36,32 @@ func sayHello(w http.ResponseWriter, r *http.Request) {
 	message = "Hello " + message
 	w.Write([]byte(message))
 }
+
 func main() {
-	http.HandleFunc("/", sayHello)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		panic(err)
+	flag.Parse()
+
+	var err error
+	*dir, err = filepath.Abs(*dir)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Printf("serving %s as %s on %s", *dir, *prefix, *listen)
+
+	// http.HandleFunc("/", sayHello)
+	// if err := http.ListenAndServe(":8080", nil); err != nil {
+	//		panic(err)
+	// }
+
+	http.Handle(*prefix, http.StripPrefix(*prefix, http.FileServer(http.Dir(*dir))))
+
+	logger := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
+		http.DefaultServeMux.ServeHTTP(w, r)
+	})
+
+	// err := http.ListenAndServe(*listen, http.FileServer(http.Dir(*dir)))
+	err = http.ListenAndServe(*listen, logger)
+	if err != nil {
+		log.Fatalln(err)
 	}
 }
