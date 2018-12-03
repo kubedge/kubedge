@@ -16,6 +16,12 @@ jobs:
       - export VERSION=0.1.0
       - cd kubedge
       - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -installsuffix cgo -o goserv .
+      - cd webapp1
+      - GOOS=js GOARCH=wasm go build -o main.wasm main.go
+      - cd ..
+      - cd webapp2
+      - GOOS=js GOARCH=wasm go build -o main.wasm main.go
+      - cd ..
       - cd ..
       - docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
