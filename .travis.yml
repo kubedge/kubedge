@@ -16,6 +16,12 @@ jobs:
       - export VERSION=0.1.0
       - cd kubedge
       - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goserv .
+      - cd webapp1
+      - GOOS=js GOARCH=wasm go build -o main.wasm main.go
+      - cd ..
+      - cd webapp2
+      - GOOS=js GOARCH=wasm go build -o main.wasm main.go
+      - cd ..
       - cd ..
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t $DHUBREPO:$VERSION -f images/kubedge/Dockerfile .
