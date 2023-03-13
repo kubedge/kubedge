@@ -19,7 +19,6 @@ setup:
 ifndef GOPATH
 	$(error GOPATH not defined, please define GOPATH. Run "go help gopath" to learn more about GOPATH)
 endif
-	# dep ensure
 
 clean:
 	rm -fr vendor
@@ -28,27 +27,13 @@ clean:
 	rm -fr config/crds
 	rm -fr go.sum
 
-# Run tests
-unittest: setup fmt vet-v1
-	echo "sudo systemctl stop kubelet"
-	echo -e 'docker stop $$(docker ps -qa)'
-	echo -e 'export PATH=$${PATH}:/usr/local/kubebuilder/bin'
-	mkdir -p config/crds
-	cp chart/templates/*v1alpha1* config/crds/
-	go test ./pkg/... ./cmd/... -coverprofile cover.out
-
 # Run go fmt against code
 fmt: setup
-	go fmt ./pkg/... ./cmd/...
+	go fmt ./cmd/...
 
 # Run go vet against code
 vet-v1: fmt
-	go vet -composites=false -tags=v1 ./pkg/... ./cmd/...
-
-# Generate code
-generate: setup
-	GO111MODULE=on controller-gen crd paths=./pkg/apis/kubedgeoperators/... crd:trivialVersions=true output:crd:dir=./chart/templates/ output:none
-	GO111MODULE=on controller-gen object paths=./pkg/apis/kubedgeoperators/... output:object:dir=./pkg/apis/kubedgeoperators/v1alpha1 output:none
+	go vet -composites=false -tags=v1 ./cmd/...
 
 # Build the docker image
 docker-build: fmt vet-v1 docker-build-dev docker-build-amd64 docker-build-arm32v7 docker-build-arm64v8
@@ -73,35 +58,20 @@ docker-build-arm64v8:
 	docker build . -f build/Dockerfile.arm64v8 -t ${IMG_ARM64V8}
 	docker tag ${IMG_ARM64V8} ${DHUBREPO_ARM64V8}:latest
 
-# Push the docker image
-docker-push: docker-push-dev docker-push-amd64 docker-push-arm32v7 docker-push-arm64v8
-
-docker-push-dev:
-	docker push ${IMG_DEV}
-
-docker-push-amd64:
-	docker push ${IMG_AMD64}
-
-docker-push-arm32v7:
-	docker push ${IMG_ARM32V7}
-
-docker-push-arm64v8:
-	docker push ${IMG_ARM64V8}
-
 # Run against the configured Kubernetes cluster in ~/.kube/config
 install: install-dev
 
-install-dev: docker-build-dev
-	helm install --name kubedge chart --set images.tags.operator=${IMG_DEV} --namespace ${K8S_NAMESPACE}
+install-dev:
+	cd charts/kubedge && helm install kubedge --values values.yaml --values values-dev.yaml .
 
 install-amd64:
-	helm install --name kubedge chart --set images.tags.operator=${IMG_AMD64},images.pull_policy=Always --namespace ${K8S_NAMESPACE}
+	cd charts/kubedge && helm install kubedge --values values.yaml --values values-amd64.yaml .
 
 install-arm32v7:
-	helm install --name kubedge chart --set images.tags.operator=${IMG_ARM32V7},images.pull_policy=Always --namespace ${K8S_NAMESPACE}
+	cd charts/kubedge && helm install kubedge --values values.yaml --values values-arm32v7.yaml .
 
 install-arm64v8:
-	helm install --name kubedge chart --set images.tags.operator=${IMG_ARM64V8},images.pull_policy=Always --namespace ${K8S_NAMESPACE}
+	cd charts/kubedge && helm install kubedge --values values.yaml --values values-arm64v8.yaml .
 
 purge: setup
-	helm delete --purge kubedge
+	helm delete kubedge
