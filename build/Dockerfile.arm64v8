@@ -11,21 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-DOCKER_NAMESPACE ?= kubedge
-VERION           ?= 0.1.0
-SIMU_NAME        = kubedge
-CURRENT_BRANCH   = ${shell git rev-parse --abbrev-ref HEAD}
-IMAGE_NAME       = ${SIMU_NAME}-${CURRENT_BRANCH}
-DHUBREPO         = ${DOCKER_NAMESPACE}/${IMAGE_NAME}
-
-.PHONY: all
-
-all: simulator
-
-simulator: kubedge/main.go
-	cd kubedge && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o goserv-${CURRENT_BRANCH} .
-
-clean: kubedge/goserv-${CURRENT_BRANCH}
-	cd kubedge && rm -f goserv-${CURRENT_BRANCH}
+FROM scratch
+ADD build/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+ADD build/_output/arm64v8/kubedge /usr/local/bin/kubedge
+CMD ["/usr/local/bin/kubedge"]

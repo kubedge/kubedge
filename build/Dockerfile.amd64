@@ -13,9 +13,6 @@
 # limitations under the License.
 
 FROM scratch
-ADD kubedge/ca-certificates.crt /etc/ssl/certs/
-ADD kubedge/webapp1 /webapp1
-ADD kubedge/webapp2 /webapp2
-ADD kubedge/goserv /goserv
-EXPOSE 8080
-CMD ["/goserv"]
+ADD build/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+ADD build/_output/amd64/kubedge /usr/local/bin/kubedge
+CMD ["/usr/local/bin/kubedge"]
