@@ -15,10 +15,10 @@
 # Default values for kuplay-chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-nameOverride: dev
+nameOverride: arm32v7
 replicaCount: 1
 image:
-  repository: kubedge1/kubedge-dev
+  repository: kubedge1/kubedge-arm32v7
   tag: 0.1.0
   pullPolicy: IfNotPresent
 service:
