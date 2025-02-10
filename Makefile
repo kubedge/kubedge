@@ -62,7 +62,7 @@ docker-build-arm64v8:
 
 PLATFORMS ?= linux/arm64,linux/amd64,linux/arm/v7
 .PHONY: docker-buildx
-docker-sub-buildx: ## Build and push docker image for the manager for cross-platform support
+docker-buildx: ## Build and push docker image for the manager for cross-platform support
 	# copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
 	sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' build/Dockerfile.buildkit > Dockerfile.cross
 	- $(CONTAINER_TOOL) buildx create --name project-v3-builder
