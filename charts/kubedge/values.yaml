@@ -18,8 +18,8 @@
 nameOverride: dev
 replicaCount: 1
 image:
-  repository: kubedge1/kubedge-dev
-  tag: 0.1.0
+  repository: kubedge1/kubedge
+  tag: v0.2.24
   pullPolicy: IfNotPresent
 service:
   name: kubedge
